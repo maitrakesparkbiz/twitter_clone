@@ -1,10 +1,12 @@
 const express = require("express");
+const app=express();
+const fileUpload=require("express-fileupload")
 const { route } = require("express/lib/application");
 const db_connection = require("./mysql_routes");
 const path = require("path");
 const mysql = require('mysql2');
 var url = require('url');
-fileupload=require('express-fileupload')
+
 
 let router = express.Router();
 
@@ -14,6 +16,9 @@ const connection = mysql.createConnection({
   database: 'g3_twitter'
 });
 
+router.use(fileUpload())
+
+router.use(express.static(path.join(__dirname,"/public")))
 
 router.get("/", (req, res) => {
   try {
@@ -26,9 +31,25 @@ router.get("/", (req, res) => {
 
 router.post("/update_profile", (req, res) => {
   try {
-    console.log(req.files.foo);
+  
+    console.log('req.files >>>', req.files.file);
+    let myfile=req.files.file;
+    uploadPath ='/home/maitrak/Downloads/G3-Twitter/public/profile_photo/' + myfile.name;
+    console.log(uploadPath);
+    myfile.mv(uploadPath)
+    
+
+//bg
+
+    console.log('req.files >>>', req.files.file1);
+    let myfile1=req.files.file1;
+    uploadPath1 ='/home/maitrak/Downloads/G3-Twitter/public/backgroup_photo/' + myfile1.name;
+    console.log(uploadPath1);
+    myfile1.mv(uploadPath1)
+
+    
     console.log(req.body)
-    update_userdata="UPDATE `user_master` SET `name`='"+req.body.name+"',`email`='"+req.body.email+"',`phone_no`='"+req.body.phone+"',`bio`='"+req.body.bio+"',`website`='"+req.body.website+"',`birthdate`='"+req.body.dob+"',`location`='"+req.body.location+"',`gender`='"+req.body.gender+"' WHERE id="+req.body.id+""
+    update_userdata="UPDATE `user_master` SET `name`='"+req.body.name+"',`email`='"+req.body.email+"',`phone_no`='"+req.body.phone+"',`bio`='"+req.body.bio+"',`website`='"+req.body.website+"',`birthdate`='"+req.body.dob+"',`location`='"+req.body.location+"',`gender`='"+req.body.gender+"',`profile_image`='"+myfile.name+"',`background_image`='"+myfile1.name+"' WHERE id="+req.body.id+""
     console.log(update_userdata);
     connection.query(
       update_userdata,

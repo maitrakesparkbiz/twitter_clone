@@ -21,14 +21,14 @@
    
   <div class="row">
       <!-- left column -->
-      <form action="/update_profile" onsubmit="return submit_form()" method="post">
-      <div class="col-md-3" style="background-image: url('images/bg.jpg');">
+      <form action="/update_profile" onsubmit="return submit_form()" method="post" encType="multipart/form-data">
+      <div class="col-md-3" style="background-image: url('backgroup_photo/<%=results[0].background_image%>');">
         <div class="text-center">
-          <img src="images/avatar7.png" class="avatar" alt="avatar">
+          <img src="profile_photo/<%=results[0].profile_image%>" class="avatar" alt="avatar">
           
           
-          <input type="file" id="profile_image" name="foo">
-          <input type="file" id="background_image" style="float: right;margin-top: 84px;"  name="background_image">
+          <input type="file" id="profile_image" name="file">
+          <input type="file" id="background_image" style="float: right;margin-top: 84px;"  name="file1">
           
         </div>
       </div>
