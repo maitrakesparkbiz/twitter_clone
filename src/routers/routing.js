@@ -4,6 +4,8 @@ const db_connection = require("./mysql_routes");
 const path = require("path");
 const mysql = require('mysql2');
 var url = require('url');
+fileupload=require('express-fileupload')
+
 let router = express.Router();
 
 const connection = mysql.createConnection({
@@ -24,7 +26,8 @@ router.get("/", (req, res) => {
 
 router.post("/update_profile", (req, res) => {
   try {
-    console.log(req.body.name)
+    console.log(req.files.foo);
+    console.log(req.body)
     update_userdata="UPDATE `user_master` SET `name`='"+req.body.name+"',`email`='"+req.body.email+"',`phone_no`='"+req.body.phone+"',`bio`='"+req.body.bio+"',`website`='"+req.body.website+"',`birthdate`='"+req.body.dob+"',`location`='"+req.body.location+"',`gender`='"+req.body.gender+"' WHERE id="+req.body.id+""
     console.log(update_userdata);
     connection.query(
