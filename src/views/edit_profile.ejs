@@ -6,22 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="css/style.css">
+<link rel="js" href="js/edit_profile.js">
+
   <title>Document</title>
 
 </head>
 <body>
+  <div id="myModal" class="modal" style="display: block;padding-top: 5px;">
+
+    <!-- Modal content -->
+    <div class="modal-content">
   <div class="container bootstrap snippets bootdey">
    
    
   <div class="row">
       <!-- left column -->
-      <form action="/update_profile" method="post">
-      <div class="col-md-3" style="background-color: #1E90FF;">
+      <form action="/update_profile" onsubmit="return submit_form()" method="post">
+      <div class="col-md-3" style="background-image: url('images/bg.jpg');">
         <div class="text-center">
           <img src="images/avatar7.png" class="avatar" alt="avatar">
           
           
-          <input type="file" >
+          <input type="file" id="profile_image" name="profile_image">
+          <input type="file" id="background_image" style="float: right;margin-top: 84px;"  name="background_image">
+          
         </div>
       </div>
       
@@ -34,52 +42,53 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Name:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="name" >
+              <input type="hidden" name="id" id="id" value="<%=results[0].id%>">
+              <input class="form-control" type="text" name="name" id="name" value="<%=results[0].name%>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Bio:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="bio">
+              <input class="form-control" type="text" name="bio" id="bio" value="<%=results[0].bio%>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Location:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="location">
+              <input class="form-control" type="text" name="location" id="location" value="<%=results[0].location%>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Website:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="website">
+              <input class="form-control" type="text" name="website" id="website" value="<%=results[0].website%>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Date of Birth:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="date" name="dob">
+              <input class="form-control" type="date" name="dob" value="<%=results[0].birthdate%>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Email:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="email">
+              <input class="form-control" type="text" name="email" id="email" value="<%=results[0].email%>">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Phone:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="phone">
+              <input class="form-control" type="text" name="phone" id="phone" value="<%=results[0].phone_no%>">
             </div>
           </div>
           <div class="form-group">
            
             <div class="col-lg-8">
-            <label>Female </label>
-            <input type="radio" name="gender" class="form" id="gender" value="male">
             <label>Male </label>
-            <input type="radio" name="gender" class="form-control" id="gender"  value="female">
+            <input type="radio" name="gender" class="form" id="gender" value="male" <%if(results[0].gender=="male"){%> checked <%} %> >
+            <label>Female </label>
+            <input type="radio" name="gender" class="form-control" id="gender"  value="female"  <%if(results[0].gender=="female"){%> checked <%} %> >
             <br><br>
             </div>
           </div>
@@ -98,6 +107,59 @@
       </div>
   </div>
   </div>
-  <hr>
+</div>
+</div>
+  
 </body>
+<script>
+  var modal = document.getElementById("myModal");
+  modal.style.display = "block";
+  function submit_form(){
+
+let name=document.getElementById("name").value;
+let bio=document.getElementById("bio").value;
+let location=document.getElementById("location").value;
+let website=document.getElementById("website").value;
+let email=document.getElementById("email").value;
+let phone=document.getElementById("phone").value;
+
+var nameptr = /^[a-zA-Z\s]*$/;
+var bioptr = /^[a-zA-Z\s1-9]*$/;
+var locationptr = /^[a-zA-Z\s1-9]*$/;
+let websiteptr=/^\w+([\.-]?\w+)*.\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+var emailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+var contact=/^[+]{1}[0-9]*$/;
+if(!name.match(nameptr))
+{
+  alert("first false");
+  return false;
+}
+if(!bio.match(bioptr))
+{
+  alert("bio false");
+  return false;
+}  
+if(!location.match(locationptr))
+{
+  alert("location false");
+  return false;
+}  
+if(!website.match(websiteptr))
+{
+  alert("website false");
+  return false;
+}
+if(!email.match(emailformat))
+{
+  alert("email false");
+  return false;
+}
+if(!phone.match(contact))
+{
+  alert("phone false");
+  return false; 
+}
+
+}
+</script>
 </html>
